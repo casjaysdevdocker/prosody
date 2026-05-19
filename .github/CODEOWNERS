@@ -1,0 +1,8 @@
+# Global owners — review required for everything not covered below
+* @casjaysdevdocker
+
+# Workflow changes require maintainer sign-off
+.github/ @casjaysdevdocker
+
+# Docker assets
+docker/ @casjaysdevdocker

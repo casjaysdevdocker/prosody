@@ -1,0 +1,29 @@
+services:
+  prosody:
+    image: ghcr.io/casjaysdevdocker/prosody:latest
+    restart: unless-stopped
+    environment:
+      - XMPP_DOMAIN=meet.jitsi
+      - XMPP_AUTH_DOMAIN=auth.meet.jitsi
+      - XMPP_GUEST_DOMAIN=guest.meet.jitsi
+      - XMPP_MUC_DOMAIN=muc.meet.jitsi
+      - XMPP_INTERNAL_MUC_DOMAIN=internal-muc.meet.jitsi
+      - XMPP_HIDDEN_DOMAIN=hidden.meet.jitsi
+      - JICOFO_AUTH_PASSWORD=changeme_jicofo
+      - JVB_AUTH_PASSWORD=changeme_jvb
+      - ENABLE_AUTH=0
+      - ENABLE_GUESTS=0
+      - ENABLE_XMPP_WEBSOCKET=1
+      - LOG_LEVEL=info
+    volumes:
+      - ./volumes/config:/config
+    ports:
+      - "5222:5222"
+      - "5280:5280"
+      - "5347:5347"
+    networks:
+      - prosody-net
+
+networks:
+  prosody-net:
+    driver: bridge

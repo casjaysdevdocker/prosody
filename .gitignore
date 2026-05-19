@@ -1,0 +1,69 @@
+# gitignore created on 05/19/26 at 09:30
+ignoredirmessage
+
+# ignore commit message
+**/.gitcommit
+
+# ignore build failure markers
+**/.build_failed*
+
+# ignore backup files
+**/*.bak
+
+# ignore push/git control files
+**/.no_push
+**/.no_git
+
+# ignore install markers
+**/.installed
+
+# ignore work in progress scripts
+**/*.rewrite.sh
+**/*.refactor.sh
+
+# ignore dotenv files
+.env
+app.env
+default.env
+
+# ignore log and temp files
+*.log
+*.tmp
+*.temp
+
+# OS generated files
+### Linux ###
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+### macOS ###
+.DS_Store?
+.AppleDouble
+.LSOverride
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+
+# runtime volume data — never committed
+volumes/
+docker/volumes/
+
+# Claude Code runtime files
+.claude/settings.local.json
+.claude/backups/
+.claude/cache/
+.claude/file-history/
+.claude/history.jsonl
+.claude/projects/
+.claude/statsFile
+.claude/*.lock
