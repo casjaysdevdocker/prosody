@@ -19,8 +19,8 @@ dockermgr update prosody
 ## Install and run container
   
 ```shell
-dockerHome="/var/lib/srv/$USER/docker/casjaysdevdocker/prosody/prosody/latest/volumes"
-mkdir -p "/var/lib/srv/$USER/docker/prosody/volumes"
+dockerHome="/srv/$USER/docker/casjaysdevdocker/prosody/prosody/latest/volumes"
+mkdir -p "/srv/$USER/docker/prosody/volumes"
 git clone "https://github.com/dockermgr/prosody" "$HOME/.local/share/CasjaysDev/dockermgr/prosody"
 cp -Rfva "$HOME/.local/share/CasjaysDev/dockermgr/prosody/volumes/." "$dockerHome/"
 docker run -d \
@@ -47,8 +47,8 @@ services:
       - TZ=America/New_York
       - HOSTNAME=prosody
     volumes:
-      - "/var/lib/srv/$USER/docker/casjaysdevdocker/prosody/prosody/latest/volumes/data:/data:z"
-      - "/var/lib/srv/$USER/docker/casjaysdevdocker/prosody/prosody/latest/volumes/config:/config:z"
+      - "/srv/$USER/docker/casjaysdevdocker/prosody/prosody/latest/volumes/data:/data:z"
+      - "/srv/$USER/docker/casjaysdevdocker/prosody/prosody/latest/volumes/config:/config:z"
     ports:
       - 80:80
     restart: always
