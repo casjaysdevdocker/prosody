@@ -77,3 +77,16 @@ buildx
   
 🤖 casjay: [Github](https://github.com/casjay) 🤖  
 ⛵ casjaysdevdocker: [Github](https://github.com/casjaysdevdocker) [Docker](https://hub.docker.com/u/casjaysdevdocker) ⛵  
+
+## Authentication  
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `AUTH_TYPE` | `internal` | `internal` = local accounts only; `openfire` = local accounts, then Openfire |
+| `OPENFIRE_AUTH_HOST` | `172.17.0.1` | Openfire direct-TLS c2s host (certificate and hostname verified) |
+| `OPENFIRE_AUTH_PORT` | `5223` | Openfire direct-TLS c2s port |
+| `OPENFIRE_AUTH_DOMAIN` | empty | Openfire XMPP domain (required for `AUTH_TYPE=openfire`) |
+| `OPENFIRE_AUTH_EXCLUDE` | `focus,jvb,jibri,recorder` | Service accounts that never use Openfire |
+
+Service accounts (`focus`, `jvb`, `jibri`, `jigasi`) always use local `internal_hashed`.  
+Only SASL PLAIN is offered with `openfire`, since an external check cannot do SCRAM.  

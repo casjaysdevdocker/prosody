@@ -35,9 +35,19 @@ set -euo pipefail
 : "${PROSODY_C2S_REQUIRE_ENCRYPTION:=true}"
 : "${PROSODY_ADMINS:=}"
 : "${AUTH_TYPE:=internal}"
+: "${OPENFIRE_AUTH_ENABLED:=0}"
+[[ "${AUTH_TYPE}" == "openfire" ]] && OPENFIRE_AUTH_ENABLED=1
+export OPENFIRE_AUTH_ENABLED
 : "${DISABLE_POLLS:=0}"
 
-# Derived
+# Derived: AUTH_TYPE selects the authentication module for user accounts
+#   internal -> internal_hashed (local accounts only)
+#   openfire -> openfire_hybrid (local accounts, then Openfire via OPENFIRE_AUTH_*)
+case "${AUTH_TYPE}" in
+  internal) USER_AUTH_MODULE="internal_hashed" ;;
+  openfire) USER_AUTH_MODULE="openfire_hybrid" ;;
+  *) echo "FATAL: AUTH_TYPE must be internal or openfire (got: ${AUTH_TYPE})" >&2; exit 1 ;;
+esac
 XMPP_MUC_DOMAIN_PREFIX="${XMPP_MUC_DOMAIN%%.*}"
 PROSODY_CFG="/config/prosody.cfg.lua"
 PROSODY_SITE_CFG="/config/conf.d/jitsi-meet.cfg.lua"
@@ -138,7 +148,7 @@ c2s_interfaces = { "*" }
 
 s2s_secure_auth = false
 
-authentication = "internal_hashed"
+authentication = "${USER_AUTH_MODULE}"
 
 -- Logging
 log = {
@@ -184,7 +194,7 @@ __generate_site_cfg() {
   # Determine main VirtualHost authentication
   local main_auth="jitsi-anonymous"
   if [[ "${ENABLE_AUTH}" == "1" ]] || [[ "${ENABLE_AUTH}" == "true" ]]; then
-    main_auth="internal_hashed"
+    main_auth="${USER_AUTH_MODULE}"
   fi
 
   # Determine guest VirtualHost authentication
