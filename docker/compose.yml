@@ -27,6 +27,7 @@ services:
       ENABLE_XMPP_WEBSOCKET: "1"
       LOG_LEVEL: info
       # internal = local accounts only; openfire = also accept Openfire accounts
+      ENABLE_REGISTRATION: "0"
       AUTH_TYPE: internal
       OPENFIRE_AUTH_ENABLED: "0"
       OPENFIRE_AUTH_HOST: 172.17.0.1

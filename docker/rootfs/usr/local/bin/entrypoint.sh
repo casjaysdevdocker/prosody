@@ -39,6 +39,7 @@ set -euo pipefail
 [[ "${AUTH_TYPE}" == "openfire" ]] && OPENFIRE_AUTH_ENABLED=1
 export OPENFIRE_AUTH_ENABLED
 : "${DISABLE_POLLS:=0}"
+: "${ENABLE_REGISTRATION:=0}"
 
 # Derived: AUTH_TYPE selects the authentication module for user accounts
 #   internal -> internal_hashed (local accounts only)
@@ -238,6 +239,16 @@ VirtualHost "${XMPP_DOMAIN}"
         "muc_breakout_rooms";
         "features_identity";
 SITE_START
+
+  # Registration endpoint used by the jitsi-web /register page
+  # Needs ENABLE_AUTH: anonymous auth has nowhere to store accounts
+  if [[ "${ENABLE_REGISTRATION}" == "1" ]] || [[ "${ENABLE_REGISTRATION}" == "true" ]]; then
+    if [[ "${main_auth}" == "jitsi-anonymous" ]]; then
+      echo "WARN:  ENABLE_REGISTRATION ignored: requires ENABLE_AUTH=1" >&2
+    else
+      printf '        "user_api";\n' >> "${PROSODY_SITE_CFG}"
+    fi
+  fi
 
   # Optional XMPP_MODULES
   if [[ -n "${XMPP_MODULES:-}" ]]; then

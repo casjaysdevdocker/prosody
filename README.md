@@ -90,3 +90,12 @@ buildx
 
 Service accounts (`focus`, `jvb`, `jibri`, `jigasi`) always use local `internal_hashed`.  
 Only SASL PLAIN is offered with `openfire`, since an external check cannot do SCRAM.  
+
+## Registration  
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `ENABLE_REGISTRATION` | `0` | Serve `POST /user-api/register` (used by the jitsi-web `/register` page) |
+
+Requires `ENABLE_AUTH=1` and `AUTH_TYPE=internal`; otherwise it is ignored (with a warning) or refused (403).  
+Rate limited to 5 attempts per IP per hour; reserved names (`admin`, `focus`, `jvb`, ...) are rejected.  
