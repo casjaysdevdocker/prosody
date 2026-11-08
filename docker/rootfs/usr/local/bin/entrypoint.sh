@@ -180,7 +180,7 @@ network_settings = {
 data_path = "/config/data";
 
 -- Plugin paths
-plugin_paths = { "/prosody-plugins-custom", "/prosody-plugins/", "/prosody-plugins-contrib" };
+plugin_paths = { "/prosody-plugins-custom", "/prosody-plugins/", "/prosody-plugins-contrib", "/usr/local/share/prosody-plugins" };
 
 Include "conf.d/*.cfg.lua"
 MAIN_CFG
