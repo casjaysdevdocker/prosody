@@ -56,7 +56,6 @@ default.env
 
 # runtime volume data — never committed
 volumes/
-docker/volumes/
 
 # Claude Code runtime files
 .claude/settings.local.json

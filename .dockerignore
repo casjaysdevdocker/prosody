@@ -17,7 +17,6 @@ releases/
 
 # runtime volume data (never in image)
 volumes/
-docker/volumes/
 
 # OS files
 .DS_Store

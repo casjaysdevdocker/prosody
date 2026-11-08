@@ -49,10 +49,10 @@ COPY --from=jitsi-source /prosody-plugins-contrib /prosody-plugins-contrib
 COPY --from=jitsi-source /usr/local/share/lua/5.4 /usr/local/share/lua/5.4
 
 # Copy rootfs overlay (mirrors Linux FHS)
-COPY docker/rootfs/ /
+COPY rootfs/ /
 
 # Copy Dockerfile into image for reference
-COPY docker/Dockerfile /root/Dockerfile
+COPY Dockerfile /root/Dockerfile
 
 # Set ownership and permissions
 RUN chown -R prosody:prosody /config /prosody-plugins-custom /prosody-plugins-contrib && \

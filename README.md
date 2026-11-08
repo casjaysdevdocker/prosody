@@ -38,20 +38,63 @@ casjaysdevdocker/prosody:latest
 ## via docker-compose  
   
 ```yaml
-version: "2"
+# nginx proxy address - http://172.17.0.1:5280
+name: prosody
+
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "3"
+
 services:
-  ProjectName:
-    image: casjaysdevdocker/prosody
-    container_name: casjaysdevdocker-prosody
-    environment:
-      - TZ=America/New_York
-      - HOSTNAME=prosody
-    volumes:
-      - "/srv/$USER/docker/casjaysdevdocker/prosody/prosody/latest/volumes/data:/data:z"
-      - "/srv/$USER/docker/casjaysdevdocker/prosody/prosody/latest/volumes/config:/config:z"
-    ports:
-      - 80:80
+  prosody:
+    image: ghcr.io/casjaysdevdocker/prosody:latest
+    pull_policy: always
     restart: always
+    logging: *logging
+    environment:
+      XMPP_DOMAIN: meet.jitsi
+      XMPP_AUTH_DOMAIN: auth.meet.jitsi
+      XMPP_GUEST_DOMAIN: guest.meet.jitsi
+      XMPP_MUC_DOMAIN: muc.meet.jitsi
+      XMPP_INTERNAL_MUC_DOMAIN: internal-muc.meet.jitsi
+      XMPP_HIDDEN_DOMAIN: hidden.meet.jitsi
+      JICOFO_AUTH_PASSWORD: ${JICOFO_AUTH_PASSWORD:?set in .env}
+      JVB_AUTH_PASSWORD: ${JVB_AUTH_PASSWORD:?set in .env}
+      ENABLE_AUTH: "0"
+      ENABLE_GUESTS: "0"
+      ENABLE_XMPP_WEBSOCKET: "1"
+      LOG_LEVEL: info
+      # internal = local accounts only; openfire = also accept Openfire accounts
+      ENABLE_REGISTRATION: "0"
+      AUTH_TYPE: internal
+      OPENFIRE_AUTH_ENABLED: "0"
+      OPENFIRE_AUTH_HOST: 172.17.0.1
+      OPENFIRE_AUTH_PORT: "5223"
+      OPENFIRE_AUTH_DOMAIN: ""
+      OPENFIRE_AUTH_EXCLUDE: focus,jvb,jibri,recorder
+    volumes:
+      - ./volumes/config:/config
+    ports:
+      - "5222:5222"
+      - "5280:5280"
+      - "5347:5347"
+    networks:
+      - prosody
+    healthcheck:
+      test: ["CMD", "/usr/local/bin/healthcheck.sh"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  prosody:
+    driver: bridge
+    enable_ipv6: true
+    ipam:
+      config:
+        - subnet: fd00:5a:30::/64
 ```
   
 ## Get source files  
